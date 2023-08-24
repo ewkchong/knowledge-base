@@ -1,0 +1,11 @@
+{
+  "name": "knowledge-base",
+  "version": "1.0.0",
+  "description": "a place to compile your knowledge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ewkchong",
+  "license": "ISC"
+}
