@@ -1,6 +1,8 @@
 import {EditorState, Line} from "@codemirror/state"
 import {EditorView, keymap, placeholder, ViewUpdate, ViewPlugin, Decoration, DecorationSet} from "@codemirror/view"
 import {defaultKeymap} from "@codemirror/commands"
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+import { languages } from '@codemirror/language-data';
 
 function setLineDecoration(decorations: any[], text: string) {
 	if (text.length == 0) return;
