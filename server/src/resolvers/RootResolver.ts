@@ -8,12 +8,16 @@ export const rootResolver = {
 		async bases(_: any, __: any, ctx: MyContext): Promise<Base[]> {
 			const baseRepo = AppDataSource.getRepository(Base)
 
-			const bases: Base[] = await baseRepo.find()
+			const bases: Base[] = await baseRepo.find({
+				relations: {
+					owner: true
+				}
+			})
 			
 			const results: Base[] = []
 
 			for (const base of bases) {
-				if (base.private && base.owner != ctx.userId) {
+				if (base.priv && base.owner.id != ctx.userId) {
 					continue;
 				}
 				results.push(base)

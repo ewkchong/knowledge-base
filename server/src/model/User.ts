@@ -90,6 +90,24 @@ export const userResolver = {
 			}
 
 			return { ok: true, accessToken };
+		},
+		async createBase(_: any, { title, priv }, ctx: MyContext) {
+			if (!ctx.userId) {
+				return false;
+			}
+			const base = new Base();
+			base.title = title;
+			base.priv = priv;
+			
+			try {
+				base.owner = await User.findOneBy({id: ctx.userId});
+				Base.insert(base)
+			} catch (error) {
+				console.error(error)
+				return false;
+			}
+
+			return true;
 		}
 	}
 }

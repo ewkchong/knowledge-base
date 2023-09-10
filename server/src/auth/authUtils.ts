@@ -7,13 +7,8 @@ export function generateAccessKey(userid: number): string {
 }
 
 export function checkAuth(req: Request): number {
-	// const headerComponents = req["Authorization"]?.split(" ");
-	//
-	// if (!headerComponents || headerComponents.length != 2) return -1;
-	//
-	// const token = headerComponents[1];
-	
 	const token = req.cookies?.jwtok
+
 	try {
 		const payload = verify(token, process.env.ACCESS_TOKEN_SECRET) as any;
 		return payload.userId;

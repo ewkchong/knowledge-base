@@ -34,7 +34,10 @@ const init = async () => {
 		type Mutation {
 			register(email: String!, password: String!, firstName: String!, lastName: String!): Boolean
 			login(email: String!, password: String!): LoginResponse
-			createBase(title: String!, priv: Boolean): Boolean
+			createBase(title: String!, priv: Boolean!): Boolean
+			addDocToBase(baseId: String!, title: String!): Boolean
+			linkDoc(doc1: String!, doc2: String!): Boolean
+			updateText(doc: String!, textData: String!): Boolean
 		}
 	`
 	const app = express();
