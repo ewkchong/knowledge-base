@@ -22,38 +22,33 @@ const init = async () => {
 	const queryRootTypeDef = `#graphql
 		type Query {
 			bases: [Base]
+			base(id: String!): Base
 			users: [User]
 			email(id: Int): String
-		}
-	`
-	const mutationTypeDef = `#graphql
-		type LoginResponse {
-			ok: Boolean!
-			accessToken: String
-		}
-		type Mutation {
-			register(email: String!, password: String!, firstName: String!, lastName: String!): Boolean
-			login(email: String!, password: String!): LoginResponse
-			createBase(title: String!, priv: Boolean!): Boolean
-			addDocToBase(baseId: String!, title: String!): Boolean
-			linkDoc(doc1: String!, doc2: String!): Boolean
-			updateText(doc: String!, textData: String!): Boolean
+			currentUser: String
 		}
 	`
 	const app = express();
 	const httpServer = http.createServer(app);
-	
+
+	const typeDefs = [queryRootTypeDef, baseTypeDef, documentTypeDef, userTypeDef];
+	const resolvers = [rootResolver, baseResolver, documentResolver, userResolver]
+
 	// Set up Apollo Server
 	const server = new ApolloServer<MyContext>({
-		typeDefs: [queryRootTypeDef, mutationTypeDef, baseTypeDef, documentTypeDef, userTypeDef],
-		resolvers: _.merge(rootResolver, baseResolver, documentResolver, userResolver),
+		typeDefs,
+		resolvers: _.merge(resolvers),
 		plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 	});
 
 	await server.start()
 
+	var corsOptions = {
+		origin: 'http://localhost:5173',
+		credentials: true // <-- REQUIRED backend setting
+	};
 	app.use(
-		cors(),
+		cors(corsOptions),
 		bodyParser.json(),
 		cookieParser(),
 		expressMiddleware(server, {

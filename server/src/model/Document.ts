@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { MyContext } from "src/context/Context.js";
 import { Base } from "./Base.js";
 import { GraphQLError } from "graphql";
@@ -21,50 +21,78 @@ export class Document extends BaseEntity {
 	base: Base
 
 	@ManyToMany(() => Document, (document) => document.linked)
+	@JoinTable()
 	linked: Document[]
 }
 
 export const documentTypeDef = `#graphql
 	type Document {
-		uuid: String!
+		id: String!
 		title: String!
 		textData: String
 		linked: [Document]
 	}
+
+	type Mutation {
+		linkDoc(srcDoc: String!, tgtDoc: String!): Boolean
+		updateText(doc: String!, textData: String!): Boolean
+	}
 `
 
 export const documentResolver = {
-	Mutation: {
-		async linkDoc(_: any, args: { doc1: string, doc2: string }, ctx: MyContext): Promise<Boolean> {
-			const doc1 = await Document.findOne({
+	Document: {
+		async linked(parent: any) {
+			const doc = await Document.findOne({
 				where: {
-					id: args.doc1
+					id: parent.id
+				},
+				relations: {
+					linked: true
 				}
 			});
-			const doc2 = await Document.findOneBy({ id: args.doc2 });
 
-			if (!doc1) {
+			return doc.linked;
+		}
+	},
+	Mutation: {
+		async linkDoc(_: any, args: { srcDoc: string, tgtDoc: string }, ctx: MyContext): Promise<Boolean> {
+			const srcDoc = await Document.findOne({
+				where: {
+					id: args.srcDoc
+				},
+				relations: {
+					linked: true
+				}
+			});
+			const tgtDoc = await Document.findOne({
+				where: {
+					id: args.tgtDoc
+				},
+				relations: {
+					linked: true
+				}
+			});
+
+			if (!srcDoc) {
 				throw new GraphQLError('Could not find doc1', {
 					extensions: {
 						code: 'DOCUMENT_NOT_FOUND',
-						argumentName: 'doc1'
+						argumentName: 'srcDoc'
 					}
 				})
-			} else if (!doc2) {
+			} else if (!tgtDoc) {
 				throw new GraphQLError('Could not find doc2', {
 					extensions: {
 						code: 'DOCUMENT_NOT_FOUND',
-						argumentName: 'doc2'
+						argumentName: 'tgtDoc'
 					}
 				})
 			}
 
-			doc1.linked.push(doc2);
-			doc2.linked.push(doc1);
+			srcDoc.linked.push(tgtDoc);
 
 			try {
-				await doc1.save()
-				await doc2.save()
+				await srcDoc.save()
 			} catch (error) {
 				console.error(error);
 				throw new GraphQLError("could not link documents", {

@@ -40,6 +40,11 @@ export class User extends BaseEntity {
 export const userTypeDef = `#graphql
 	scalar URL
 
+	type LoginResponse {
+		ok: Boolean!
+		accessToken: String
+	}
+
 	type User {
 		id: String!
 		email: String
@@ -48,7 +53,13 @@ export const userTypeDef = `#graphql
 		bio: String
 		avatar: URL
 	}
-
+	
+	type Mutation {
+		createBase(title: String!, priv: Boolean!, desc: String!): Boolean
+		register(email: String!, password: String!, firstName: String!, lastName: String!): Boolean
+		login(email: String!, password: String!): LoginResponse
+		logout: Boolean
+	}
 `
 
 export const userResolver = {
@@ -72,6 +83,9 @@ export const userResolver = {
 		},
 		async login(_: any, { email, password }, ctx: MyContext) {
 			const user = await User.findOneBy({ email: email })
+
+			console.log("email: ", email);
+
 			if (!user) {
 				throw new GraphQLError("user not found")
 			}
@@ -91,16 +105,30 @@ export const userResolver = {
 
 			return { ok: true, accessToken };
 		},
-		async createBase(_: any, { title, priv }, ctx: MyContext) {
-			if (!ctx.userId) {
+		async logout(_: any, __: any, ctx: MyContext): Promise<Boolean> {
+			try {
+				ctx.res.clearCookie("jwtok")
+				console.log(`user ${ctx.userId} has been logged out`)
+				return true;
+			} catch (error) {
+				console.log(error);
 				return false;
 			}
+		},
+		async createBase(_: any, { title, priv, desc }, ctx: MyContext) {
+			if (ctx.userId === undefined || ctx.userId == -1) {
+				return false;
+			}
+
 			const base = new Base();
 			base.title = title;
 			base.priv = priv;
+			base.description = desc ?? "";
 			
 			try {
+				console.log("user ID: ", ctx.userId)
 				base.owner = await User.findOneBy({id: ctx.userId});
+				console.log("owner: ", base.owner)
 				Base.insert(base)
 			} catch (error) {
 				console.error(error)
@@ -108,6 +136,6 @@ export const userResolver = {
 			}
 
 			return true;
-		}
+		},
 	}
 }

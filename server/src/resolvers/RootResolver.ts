@@ -2,6 +2,7 @@ import { User } from "../model/User.js";
 import { AppDataSource } from "../data-source.js"
 import { Base } from "../model/Base.js"
 import { MyContext } from "src/context/Context.js";
+import { GraphQLError } from "graphql";
 
 export const rootResolver = {
 	Query: {
@@ -25,6 +26,30 @@ export const rootResolver = {
 			
 			return results;
 		},
+		async base(_: any, { id }, ctx: MyContext): Promise<Base> {
+			const result = await Base.findOne(
+				{ 
+					where: {
+						id: id
+					},
+					relations: {
+						owner: true
+					}
+				}
+			);
+			
+			if (!result) {
+				console.log("failed to find a base by id")
+				throw new GraphQLError("could not find base with id")
+			}
+			
+			if (result.priv && ctx.userId != result.owner.id) {
+				console.log("someone tried to access a private base they don't own")
+				throw new GraphQLError("could not find base with id")
+			}
+
+			return result;
+		},
 		users(): Promise<User[]> {
 			const userRepo = AppDataSource.getRepository(User)
 			return userRepo.find()
@@ -41,6 +66,9 @@ export const rootResolver = {
 			const user: User = await User.findOneBy({ id: id });
 
 			return user.email;
+		},
+		async currentUser(_: any, __: any, ctx: MyContext) {
+			return ctx.userId ?? ""
 		}
 	}
 }

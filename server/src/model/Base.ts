@@ -24,6 +24,11 @@ export class Base extends BaseEntity {
 	})
 	thumbnail: string
 
+	@Column("text", {
+		nullable: true
+	})
+	description: string
+
 	@ManyToOne(() => User, (user) => user.bases)
 	owner: User
 
@@ -45,9 +50,16 @@ export const baseTypeDef = `#graphql
 		thumbnail: URL
 		owner: User!
 		priv: Boolean!
+		description: String
 		documents: [Document]
 	}
+
+	type Mutation {
+		addDocToBase(baseId: String!, title: String!): Boolean
+		editDescription(baseId: String!, desc: String!): String
+	}
 `
+
 export const baseResolver = {
 	Base: {
 		async documents(parent: Base) {
@@ -93,5 +105,25 @@ export const baseResolver = {
 			return true;
 
 		},
+		async editDescription(_: any, args: { baseId: string, desc: string }, ctx: MyContext): Promise<string> {
+			if (!ctx.userId) {
+				throw new GraphQLError("you must be logged in to create a document")
+			}
+
+			const base: Base = await Base.findOne({
+				where: {
+					id: args.baseId
+				}
+			});
+
+			if (base.priv && base.owner.id !== ctx.userId) {
+				throw new GraphQLError("you must be the owner of a base to edit its description")
+			}
+
+			base.description = args.desc;
+			await base.save();
+			
+			return args.desc;
+		}
 	}
 }
