@@ -97,6 +97,7 @@ export const baseResolver = {
 			const doc = new Document();
 			doc.title = args.title;
 			doc.base = base;
+			doc.textData = "";
 			doc.save();
 
 			base.documents.push(doc);

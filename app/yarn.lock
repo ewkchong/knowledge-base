@@ -1457,6 +1457,13 @@
     "@types/d3-transition" "*"
     "@types/d3-zoom" "*"
 
+"@types/dompurify@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/@types/dompurify/-/dompurify-3.0.2.tgz"
+  integrity sha512-YBL4ziFebbbfQfH5mlC+QTJsvh0oJUrWbmxKMyEdL7emlHJqGR2Qb34TEFKj+VCayBvjKy3xczMFNhugThUsfQ==
+  dependencies:
+    "@types/trusted-types" "*"
+
 "@types/fs-extra@^9.0.1":
   version "9.0.13"
   resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-9.0.13.tgz"
@@ -1498,6 +1505,11 @@
   integrity sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==
   dependencies:
     "@types/node" "*"
+
+"@types/marked@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.npmjs.org/@types/marked/-/marked-5.0.1.tgz"
+  integrity sha512-Y3pAUzHKh605fN6fvASsz5FDSWbZcs/65Q6xYRmnIP9ZIYz27T4IOmXfH9gWJV1dpi7f1e7z7nBGUTx/a0ptpA==
 
 "@types/minimatch@*":
   version "5.1.2"
@@ -1570,6 +1582,11 @@
   version "7.5.0"
   resolved "https://registry.npmjs.org/@types/semver/-/semver-7.5.0.tgz"
   integrity sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==
+
+"@types/trusted-types@*":
+  version "2.0.4"
+  resolved "https://registry.npmjs.org/@types/trusted-types/-/trusted-types-2.0.4.tgz"
+  integrity sha512-IDaobHimLQhjwsQ/NMwRVfa/yL7L/wriQPMhw1ZJall0KX6E1oxk29XMDeilW5qTIg5aoiqf5Udy8U/51aNoQQ==
 
 "@types/yauzl@^2.9.1":
   version "2.10.0"
@@ -2825,6 +2842,11 @@ dom-helpers@^5.0.1:
   dependencies:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
+
+dompurify@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/dompurify/-/dompurify-3.0.5.tgz"
+  integrity sha512-F9e6wPGtY+8KNMRAVfxeCOHU0/NPWMSENNq4pQctuXRqqdEPW7q3CrLbR5Nse044WwacyjHGOMlvNsBe1y6z9A==
 
 eastasianwidth@^0.2.0:
   version "0.2.0"
@@ -4509,6 +4531,11 @@ map-age-cleaner@^0.1.1:
   integrity sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==
   dependencies:
     p-defer "^1.0.0"
+
+marked@^9.0.2:
+  version "9.0.2"
+  resolved "https://registry.npmjs.org/marked/-/marked-9.0.2.tgz"
+  integrity sha512-VRTR4AamWVw+wNl0PfT9zJpCHWIQZ4QLyiXVmpgrempuXeue883HH/97oVuY6uk7SSOJE6F73i62JrAIBAdc0Q==
 
 matcher@^3.0.0:
   version "3.0.0"

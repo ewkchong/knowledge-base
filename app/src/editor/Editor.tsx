@@ -3,12 +3,17 @@ import CodeMirror from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 
-function Editor() {
+function EditorWindow({ value }: any) {
+  const onChange = React.useCallback((value: any, viewUpdate: any) => {
+    console.log('value:', value);
+  }, []);
 	return (
-		<div>
-			<CodeMirror extensions={[markdown({ base: markdownLanguage, codeLanguages: languages })]} />
-		</div>
+			<CodeMirror 
+			value={value}
+			extensions={[markdown({ base: markdownLanguage, codeLanguages: languages })]} 
+			onChange={onChange}
+			/>
 	);
 }
 
-export default Editor;
+export default EditorWindow;

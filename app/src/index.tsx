@@ -13,7 +13,7 @@ const link = createHttpLink({
 	credentials: 'include'
 });
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
 	uri: 'http://localhost:4000',
 	cache: new InMemoryCache(),
 	link
@@ -74,7 +74,7 @@ const router = createHashRouter([
 		path: "bases/:baseId",
 		element: <BasePage />,
 		errorElement: <ErrorPage />,
-		loader: baseLoader
+		loader: baseLoader,
 	},
 	{
 		path: "bases/:baseId/:docId",

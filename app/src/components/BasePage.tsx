@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { CircularProgress } from '@mui/material';
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import BackBar from './BackBar';
 import { GraphData, GraphEdge } from './chart/graphData';
 import { DocChart } from './DocChart';
@@ -67,7 +67,7 @@ const BasePage = () => {
 	
 	return (
 		<>
-		<BackBar />
+		<BackBar nav=".."/>
 		<div>
 			<div className="bg-white py-24 sm:py-32">
 				<div className="mx-auto max-w-7xl px-6 lg:px-8">

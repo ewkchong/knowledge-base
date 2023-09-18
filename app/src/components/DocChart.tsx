@@ -24,5 +24,8 @@ export const DocChart = ({ data }: { data: GraphData }) => {
 			height: 600,
 		})
 
-	return <div ref={ref => ref.appendChild(graph)}></div>;
+	return <div ref={ref => {
+		if (!graph || !ref) return null;
+		return ref.appendChild(graph)
+	}}></div>;
 }

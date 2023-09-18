@@ -12,9 +12,7 @@ export class Document extends BaseEntity {
 	@Column()
 	title: string
 
-	@Column({
-		nullable: true
-	})
+	@Column()
 	textData: string
 
 	@ManyToOne(() => Base, (base) => base.documents)
@@ -29,13 +27,13 @@ export const documentTypeDef = `#graphql
 	type Document {
 		id: String!
 		title: String!
-		textData: String
+		textData: String!
 		linked: [Document]
 	}
 
 	type Mutation {
 		linkDoc(srcDoc: String!, tgtDoc: String!): Boolean
-		updateText(doc: String!, textData: String!): Boolean
+		updateText(doc: String!, textData: String!): Document
 	}
 `
 
@@ -104,7 +102,7 @@ export const documentResolver = {
 
 			return true;
 		},
-		async updateText(_: any, { doc, textData } , ctx: MyContext): Promise<Boolean> {
+		async updateText(_: any, { doc, textData } , ctx: MyContext) {
 			// TODO: test
 			const docu = await Document.findOneBy({ id: doc });
 			if (!docu) {
@@ -127,7 +125,7 @@ export const documentResolver = {
 				})
 			}
 
-			return true;
+			return docu;
 		}
 	}
 }
