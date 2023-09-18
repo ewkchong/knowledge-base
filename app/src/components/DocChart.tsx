@@ -1,8 +1,14 @@
-import * as d3 from 'd3';
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import { ForceGraph, GraphData, GraphEdge, GraphNode } from './chart/graphData';
 
 export const DocChart = ({ data }: { data: GraphData }) => {
+	const navigate = useNavigate();
+
+	function click({ id }: any) {
+		navigate(`${id}`)
+	}
+
 	const graph = ForceGraph({
 		nodes: data.nodes,
 		links: data.links
@@ -11,7 +17,8 @@ export const DocChart = ({ data }: { data: GraphData }) => {
 			nodeId: (d: any) => d.id,
 			nodeGroup: (d: any) => d.group,
 			nodeTitle: (d: GraphNode) => `${d.title}`,
-			nodeStrength: -100,
+			clickCallback: click,
+			nodeStrength: - 100,
 			linkStrength: 0.3,
 			width: 962,
 			height: 600,

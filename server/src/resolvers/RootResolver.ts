@@ -3,6 +3,7 @@ import { AppDataSource } from "../data-source.js"
 import { Base } from "../model/Base.js"
 import { MyContext } from "src/context/Context.js";
 import { GraphQLError } from "graphql";
+import { Document } from "../model/Document.js";
 
 export const rootResolver = {
 	Query: {
@@ -49,6 +50,15 @@ export const rootResolver = {
 			}
 
 			return result;
+		},
+		async doc(_: any, { id }: any, ctx: MyContext) {
+			const doc = await Document.findOne({
+				where: {
+					id: id
+				}
+			});
+
+			return doc;
 		},
 		users(): Promise<User[]> {
 			const userRepo = AppDataSource.getRepository(User)

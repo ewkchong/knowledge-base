@@ -49,6 +49,7 @@ export function ForceGraph(
 		colors = d3.schemeTableau10, // an array of color strings, for the node groups
 		width = 640, // outer width, in pixels
 		height = 400, // outer height, in pixels
+		clickCallback,
 	}: any = {}
 ) {
 	// Compute values.
@@ -113,6 +114,10 @@ export function ForceGraph(
 		.attr("stroke", nodeStroke)
 		.attr("stroke-opacity", nodeStrokeOpacity)
 		.attr("stroke-width", nodeStrokeWidth)
+		.on("click", (d, i) => {
+			console.log("clicked document");
+			clickCallback(d.target.__data__);
+		})
 		// SM: change
 		// .selectAll("circle")
 		.selectAll("g")
@@ -126,7 +131,19 @@ export function ForceGraph(
 
 	// SM: change
 	// append circle and text to node <g> (selection of all <g> elements corresponding to each node)
-	node.append("circle").attr("r", nodeRadius);
+	node.append("circle").attr("r", nodeRadius)
+		.on('mouseover', function(d, i) {
+			d3.select(this)
+				.transition(d3.easeCubic())
+				.duration(200)
+				.attr('r', nodeRadius * 1.4)
+		})
+		.on('mouseout', function(d, i) {
+			d3.select(this)
+				.transition(d3.easeCubic())
+				.duration(200)
+				.attr('r', nodeRadius)
+		})
 	node
 		.append("text")
 		.text(({ index: i }) => T[i])

@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { createHashRouter, redirect, RouterProvider } from 'react-router-dom';
 import App from './components/App';
 import BasePage, { loader as baseLoader } from './components/BasePage';
+import DocPage, { loader as docLoader } from './components/DocPage';
 import ErrorPage from './components/ErrorPage';
 import Login from './components/Login';
 
@@ -73,7 +74,13 @@ const router = createHashRouter([
 		path: "bases/:baseId",
 		element: <BasePage />,
 		errorElement: <ErrorPage />,
-		loader: baseLoader,
+		loader: baseLoader
+	},
+	{
+		path: "bases/:baseId/:docId",
+		element: <DocPage />,
+		errorElement: <ErrorPage />,
+		loader: docLoader,
 	}
 ]);
 

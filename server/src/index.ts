@@ -23,6 +23,7 @@ const init = async () => {
 		type Query {
 			bases: [Base]
 			base(id: String!): Base
+			doc(id: String!): Document
 			users: [User]
 			email(id: Int): String
 			currentUser: String
