@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import * as d3 from 'd3';
+import { select, zoomIdentity } from 'd3';
 
 export type GraphNode = {
 	id: string
@@ -76,22 +77,27 @@ export function ForceGraph(
 	const color = nodeGroup == null ? null : d3.scaleOrdinal(nodeGroups, colors);
 
 	// Construct the forces.
-	const forceNode = d3.forceManyBody();
+	const forceNode = d3.forceManyBody()
+		.strength(-100)
+        .distanceMax(250)
+        .distanceMin(80)
 	const forceLink = d3.forceLink(links).id(({ index: i }) => N[i]);
-	if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
-	if (linkStrength !== undefined) forceLink.strength(linkStrength);
+	// if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
+	if (linkStrength !== undefined) forceLink.strength(0.76);
 
 	const simulation = d3
 		.forceSimulation(nodes)
 		.force("link", forceLink)
 		.force("charge", forceNode)
-		.force("center", d3.forceCenter())
+		.force("center", d3.forceCenter().x(0).y(0).strength(0.2))
+		.force("collide", d3.forceCollide().strength(0.3))
 		.on("tick", ticked);
 
 	const svg = d3
 		.create("svg")
-		.attr("width", width)
-		.attr("height", height)
+		.attr("id", "graph-svg")
+		// .attr("width", width)
+		// .attr("height", height)
 		.attr("viewBox", [-width / 2, -height / 2, width, height])
 		.attr("style", "max-width: 100%; height: auto; height: intrinsic;");
 
@@ -147,10 +153,10 @@ export function ForceGraph(
 	node
 		.append("text")
 		.text(({ index: i }) => T[i])
-		.attr("transform", (d: any) => `translate(-10 15)`)
+		.attr("transform", (d: any) => `translate(-10 25)`)
 		.attr("fill", "gray")
 		.attr("stroke", "none")
-		.attr("font-size", "0.7em");
+		.attr("font-size", "0.9em");
 
 	if (W) link.attr("stroke-width", ({ index: i }) => W[i]);
 	if (L) link.attr("stroke", ({ index: i }) => L[i]);
@@ -203,7 +209,7 @@ export function ForceGraph(
 			.on("end", dragended);
 	}
 
-	return Object.assign(svg.node(), { scales: { color } });
+	return Object.assign(svg, { scales: { color } });
 }
 
 function drawChart(data: GraphData) {
@@ -300,6 +306,6 @@ function drawChart(data: GraphData) {
 	// stop naturally, but it’s a good practice.)
 	// invalidation.then(() => simulation.stop());
 
-	return svg.node();
+	return svg;
 }
 

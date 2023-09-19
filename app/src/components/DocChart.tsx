@@ -1,3 +1,4 @@
+import { select, zoomIdentity } from 'd3';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ForceGraph, GraphData, GraphEdge, GraphNode } from './chart/graphData';
@@ -9,7 +10,7 @@ export const DocChart = ({ data }: { data: GraphData }) => {
 		navigate(`${id}`)
 	}
 
-	const graph = ForceGraph({
+	const graph: any = ForceGraph({
 		nodes: data.nodes,
 		links: data.links
 	},
@@ -18,14 +19,23 @@ export const DocChart = ({ data }: { data: GraphData }) => {
 			nodeGroup: (d: any) => d.group,
 			nodeTitle: (d: GraphNode) => `${d.title}`,
 			clickCallback: click,
-			nodeStrength: - 100,
-			linkStrength: 0.3,
-			width: 962,
+			nodeRadius: 5,
+			nodeStrength: -10,
+			linkStrength: 0.8,
+			width: 1168,
 			height: 600,
 		})
 
-	return <div ref={ref => {
+	return <div className="border border-gray-200 bg-gray-50" ref={ref => {
 		if (!graph || !ref) return null;
-		return ref.appendChild(graph)
+		const res = ref.appendChild(graph.node())
+
+		var parent = graph.node().parentElement;
+		var fullWidth = parent.clientWidth,
+		  fullHeight = parent.clientHeight;
+
+		graph.attr("viewBox", [-fullWidth/2, -fullHeight/2, fullWidth, fullHeight])
+
+		return res;
 	}}></div>;
 }

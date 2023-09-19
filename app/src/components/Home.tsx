@@ -4,6 +4,9 @@ import { CircularProgress } from '@mui/material';
 import Base from './Base';
 
 export default function Home() {
+	const handleAdd = () => {
+		console.log("clicked Add")
+	}
 
 	const BASE_QUERY = gql`
 		query getBases {
@@ -19,7 +22,6 @@ export default function Home() {
 		}
 	`
 
-
 	const { loading, error, data } = useQuery(BASE_QUERY)
 
 	if (loading) {
@@ -31,7 +33,7 @@ export default function Home() {
 	}
 
 	return (
-			<>
+		<>
 			<div className="bg-white py-24 sm:py-32">
 				<div className="mx-auto max-w-7xl px-6 lg:px-8">
 					<div className="mx-auto max-w-2xl lg:mx-0">
@@ -42,14 +44,17 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="mx-8 my-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-8 lg:max-w-none lg:grid-cols-3">
-			{
-				data.bases.map((base: any) => {
-					return (
-						<Base base={base}/>
-						   )
-						})
-			}
+			<div className="mb-4 w-fit ml-auto mx-4 bg-indigo-600 hover:bg-indigo-500 rounded px-4 py-1 text-white cursor-pointer font-light active:bg-indigo-400 transition-colors" onClick={handleAdd}>
+				+ Add
+			</div>
+			<div className="mx-8 mb-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-8 lg:max-w-none lg:grid-cols-3">
+				{
+					data.bases.map((base: any) => {
+						return (
+							<Base key={base.id} base={base} />
+						)
+					})
+				}
 			</div>
 		</>
 	)

@@ -55,7 +55,7 @@ export const baseTypeDef = `#graphql
 	}
 
 	type Mutation {
-		addDocToBase(baseId: String!, title: String!): Boolean
+		addDocToBase(baseId: String!, title: String!): Document
 		editDescription(baseId: String!, desc: String!): String
 	}
 `
@@ -75,7 +75,7 @@ export const baseResolver = {
 		}
 	},
 	Mutation: {
-		async addDocToBase(_: any, args: { baseId: string, title: string }, ctx: MyContext): Promise<Boolean> {
+		async addDocToBase(_: any, args: { baseId: string, title: string }, ctx: MyContext): Promise<Document> {
 			if (!ctx.userId) {
 				throw new GraphQLError("you must be logged in to create a document")
 			}
@@ -98,12 +98,14 @@ export const baseResolver = {
 			doc.title = args.title;
 			doc.base = base;
 			doc.textData = "";
-			doc.save();
+			await doc.save()
+
+			void doc.id;
 
 			base.documents.push(doc);
 			await base.save()
 
-			return true;
+			return doc;
 
 		},
 		async editDescription(_: any, args: { baseId: string, desc: string }, ctx: MyContext): Promise<string> {
