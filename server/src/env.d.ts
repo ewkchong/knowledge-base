@@ -4,6 +4,7 @@ declare namespace NodeJS {
     DATABASE_PASS: string;
     DATABASE_NAME: string;
     DATABASE_PORT: string;
+	DATABASE_HOST: string;
 	ACCESS_TOKEN_SECRET: string;
   }
 }
