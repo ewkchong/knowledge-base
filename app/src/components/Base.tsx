@@ -13,30 +13,30 @@ export default function Base({ base }: any) {
 				<time dateTime={base.dateCreated} className="text-gray-500">
 					{formatDate(base.dateCreated) ?? ""}
 				</time>
-				<a
+				<div
 					className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
 				>
 					Category
-				</a>
+				</div>
 			</div>
 			<div className="group relative">
 				<h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-					<a href={base.href ?? ""}>
+					<div>
 						<span className="absolute inset-0" />
 						{base.title}
-					</a>
+					</div>
 				</h3>
 				<p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{base.description ?? ""}</p>
 			</div>
 			<div className="relative mt-8 flex items-center gap-x-4">
 				<img src={`https://api.dicebear.com/7.x/initials/svg?seed=${base.owner.firstName}`} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
 				<div className="text-sm leading-6">
-					<p className="font-semibold text-gray-900">
-						<a>
+					<div className="font-semibold text-gray-900">
+						<div>
 							<span className="absolute inset-0" />
 							{base.owner.firstName}
-						</a>
-					</p>
+						</div>
+					</div>
 					{/* <p className="text-gray-600">{base.author.role}</p>*/}
 				</div>
 			</div>

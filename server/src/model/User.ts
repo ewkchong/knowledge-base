@@ -55,7 +55,7 @@ export const userTypeDef = `#graphql
 	}
 	
 	type Mutation {
-		createBase(title: String!, priv: Boolean!, desc: String!): Boolean
+		createBase(title: String!, priv: Boolean!, desc: String!): Base
 		register(email: String!, password: String!, firstName: String!, lastName: String!): Boolean
 		login(email: String!, password: String!): LoginResponse
 		logout: Boolean
@@ -129,13 +129,13 @@ export const userResolver = {
 				console.log("user ID: ", ctx.userId)
 				base.owner = await User.findOneBy({id: ctx.userId});
 				console.log("owner: ", base.owner)
-				Base.insert(base)
+				await base.save();
 			} catch (error) {
 				console.error(error)
-				return false;
+				return null;
 			}
 
-			return true;
+			return base;
 		},
 	}
 }

@@ -62,8 +62,7 @@ const BasePage = () => {
 				addDocToBase: {
 					id
 				}
-			}
-			} = result;
+			} } = result;
 			navigate(`/bases/${baseId}/${id}`);
 		}).catch((error) => {
 			console.error(error);
