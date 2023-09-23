@@ -78,7 +78,7 @@ export function ForceGraph(
 
 	// Construct the forces.
 	const forceNode = d3.forceManyBody()
-		.strength(-100)
+		.strength(-1000)
         .distanceMax(250)
         .distanceMin(80)
 	const forceLink = d3.forceLink(links).id(({ index: i }) => N[i]);
@@ -89,8 +89,9 @@ export function ForceGraph(
 		.forceSimulation(nodes)
 		.force("link", forceLink)
 		.force("charge", forceNode)
-		.force("center", d3.forceCenter().x(0).y(0).strength(0.2))
-		.force("collide", d3.forceCollide().strength(0.3))
+		.force("collide", d3.forceCollide().radius(70).strength(0.45))
+		.force("x", d3.forceX(0).strength(0.25))
+		.force("y", d3.forceY(0).strength(0.25))
 		.on("tick", ticked);
 
 	const svg = d3

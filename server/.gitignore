@@ -95,3 +95,6 @@ out
 
 # Vite build output
 .vite
+
+# SSL-Related files
+*.pem

@@ -13,8 +13,11 @@ RUN npm install
 # Copy the rest of your application code
 COPY . .
 
+# Add AWS certificate for connecting to RDS instance
+ADD https://truststore.pki.rds.amazonaws.com/us-west-2/us-west-2-bundle.pem ./us-west-2-bundle.pem
+
 # Expose a port if your application listens on a specific port
-EXPOSE 3000
+EXPOSE 4000
 
 # Define the command to run your application
 CMD ["npm", "build"]

@@ -24,6 +24,7 @@ const init = async () => {
 			bases: [Base]
 			base(id: String!): Base
 			doc(id: String!): Document
+			isLinked(doc1: String!, doc2: String!): Boolean
 			users: [User]
 			email(id: Int): String
 			currentUser: String

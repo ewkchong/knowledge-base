@@ -51,7 +51,7 @@ export const rootResolver = {
 
 			return result;
 		},
-		async doc(_: any, { id }: any, ctx: MyContext) {
+		async doc(_: any, { id }: any, __: MyContext) {
 			const doc = await Document.findOne({
 				where: {
 					id: id
@@ -59,6 +59,35 @@ export const rootResolver = {
 			});
 
 			return doc;
+		},
+		async isLinked(_: any, { doc1: id1, doc2: id2 }: any, __: MyContext): Promise<Boolean> {
+			const docA = await Document.findOne({
+				where: {
+					id: id1
+				},
+				relations: {
+					linked: true
+				}
+			});
+			
+			const docB = await Document.findOne({
+				where: {
+					id: id2
+				},
+				relations: {
+					linked: true
+				}
+			});
+
+			if (!docA || !docB) {
+				throw new GraphQLError("one of the documents is non-existent");
+			}
+
+			const linkedWithId = (doc: Document, id: string): Boolean => {
+				return doc.linked.some((ln: Document) => ln.id === id);
+			}
+
+			return (linkedWithId(docA, id2) || linkedWithId(docB, id1))
 		},
 		users(): Promise<User[]> {
 			const userRepo = AppDataSource.getRepository(User)

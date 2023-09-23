@@ -4,6 +4,7 @@ import { Base } from "./model/Base.js"
 import { Document } from "./model/Document.js"
 import { User } from "./model/User.js"
 import 'dotenv/config.js'
+import * as fs from 'fs'
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -15,6 +16,9 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: true,
     entities: [Base, Document, User],
+	// ssl: {
+	// 	ca: fs.readFileSync(process.env.SSL_CERT_PATH).toString()
+	// },
     subscribers: [],
     migrations: [],
 })

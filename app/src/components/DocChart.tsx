@@ -20,8 +20,6 @@ export const DocChart = ({ data }: { data: GraphData }) => {
 			nodeTitle: (d: GraphNode) => `${d.title}`,
 			clickCallback: click,
 			nodeRadius: 5,
-			nodeStrength: -10,
-			linkStrength: 0.8,
 			width: 1168,
 			height: 600,
 		})

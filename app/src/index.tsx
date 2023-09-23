@@ -8,13 +8,15 @@ import DocPage, { loader as docLoader } from './components/DocPage';
 import ErrorPage from './components/ErrorPage';
 import Login from './components/Login';
 
+const HOST = 'http://knowledge-base-load-balancer-1589490600.us-west-2.elb.amazonaws.com'
+
 const link = createHttpLink({
-	uri: 'http://localhost:4000',
+	uri: `${HOST}:4000`,
 	credentials: 'include'
 });
 
 export const client = new ApolloClient({
-	uri: 'http://localhost:4000',
+	uri: `${HOST}:4000`,
 	cache: new InMemoryCache(),
 	link
 });
