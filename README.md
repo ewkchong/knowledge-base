@@ -1,5 +1,4 @@
 # Knowledge Base
----
 Knowledge Base is an Obsidian-inspired repository of knowledge that allows you to store and share your Markdown notes and ideas; you can keep them linked together to create a conceptual map of your mind. This was a for fun/learning project after falling in love with Obsidian and the idea of linking notes together through related concepts.
 
 ## Technologies
