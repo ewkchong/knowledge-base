@@ -8,7 +8,8 @@ import DocPage, { loader as docLoader } from './components/DocPage';
 import ErrorPage from './components/ErrorPage';
 import Login from './components/Login';
 
-const HOST = 'http://knowledge-base-load-balancer-1589490600.us-west-2.elb.amazonaws.com'
+const HOST = 'http://knowledge-base-883261437.us-west-2.elb.amazonaws.com'
+// const HOST = 'http://localhost'
 
 const link = createHttpLink({
 	uri: `${HOST}:4000`,

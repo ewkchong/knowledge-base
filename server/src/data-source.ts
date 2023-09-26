@@ -16,9 +16,9 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: true,
     entities: [Base, Document, User],
-	// ssl: {
-	// 	ca: fs.readFileSync(process.env.SSL_CERT_PATH).toString()
-	// },
+	...process.env.NODE_ENV != "dev" && { ssl: {
+		ca: fs.readFileSync(process.env.SSL_CERT_PATH).toString()
+	}},
     subscribers: [],
     migrations: [],
 })
