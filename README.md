@@ -1,5 +1,8 @@
 # Knowledge Base
-Knowledge Base is an Obsidian-inspired repository of knowledge that allows you to store and share your Markdown notes and ideas; you can keep them linked together to create a conceptual map of your mind. This was a for fun/learning project after falling in love with Obsidian and the idea of linking notes together through related concepts.
+Knowledge Base is an Obsidian-inspired repository of knowledge that allows you to store and share your Markdown notes and ideas; you can keep them linked together to create a conceptual map of your mind. This was a for fun/learning project after falling in love with Obsidian and the idea of linking notes together through related concepts. Knowledge Base was created using a React + Tailwind frontend and a TypeScript + GraphQL API service on the backend.
+<br/>
+<br/>
+![image](https://github.com/ewkchong/knowledge-base/assets/82353320/9c772265-3bf8-435d-94b8-f6430897e849)
 
 ## Technologies
 - Electron
